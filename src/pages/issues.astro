@@ -1,0 +1,74 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Submit & Report — WOMBOS" description="Submit a missing wombo or report an issue with an entry.">
+  <div class="browse-head">
+    <p class="smallcaps">Editorial Desk</p>
+    <h1>Submit &amp; Report</h1>
+    <p class="ital" style="color:var(--ink-soft); max-width:34rem; margin:0.6rem auto 0;">
+      Found a wombo we’re missing, or an entry that’s off? Send it in — submissions are
+      reviewed live on stream and ratified into the canon.
+    </p>
+  </div>
+
+  <div class="shell measure" style="margin-block:2rem 1rem;">
+    <form id="wform" class="wform">
+      <label>Type
+        <select id="f-type" name="type">
+          <option value="Missing wombo">Missing wombo</option>
+          <option value="Wrong or incomplete definition">Wrong or incomplete definition</option>
+          <option value="Wrong spelling">Wrong spelling</option>
+          <option value="Other">Other</option>
+        </select>
+      </label>
+      <label>The wombo
+        <input type="text" id="f-word" name="word" placeholder="e.g. falsebrainwashedsaga" autocomplete="off" spellcheck="false" />
+      </label>
+      <label>Details <span class="opt">(what’s the meaning / what’s wrong / which video)</span>
+        <textarea id="f-details" name="details" rows="4" placeholder="Tell us what you know."></textarea>
+      </label>
+      <label>Your handle <span class="opt">(optional — so we can credit you)</span>
+        <input type="text" id="f-from" name="from" placeholder="@you" autocomplete="off" />
+      </label>
+      <button type="submit" class="wform-btn">Submit for Review</button>
+    </form>
+    <div id="wform-done" class="wform-done" hidden>
+      <p class="display" style="font-size:var(--t-lg); margin:0 0 0.4rem;">Submitted ✓</p>
+      <p style="color:var(--ink-soft); margin:0;">Held for editorial review — ratified entries join the canon live on stream. Thank you.</p>
+    </div>
+  </div>
+
+  <script>
+    // To collect submissions on the live site, paste a free Formspree form id (formspree.io)
+    // or your own endpoint here. Until then it stores locally + confirms (demo-safe).
+    const ENDPOINT = ''; // e.g. 'https://formspree.io/f/xxxxxxx'
+
+    const form = document.getElementById('wform');
+    const done = document.getElementById('wform-done');
+    const p = new URLSearchParams(location.search);
+    if (p.get('word')) document.getElementById('f-word').value = p.get('word');
+    if (p.get('type')) {
+      const t = { missing: 'Missing wombo', definition: 'Wrong or incomplete definition', spelling: 'Wrong spelling' }[p.get('type')];
+      if (t) document.getElementById('f-type').value = t;
+    }
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const data = Object.fromEntries(new FormData(form));
+      // keep a local copy regardless (so the submitter can see what they sent)
+      try {
+        const k = 'wombos.submissions';
+        const arr = JSON.parse(localStorage.getItem(k) || '[]');
+        arr.push({ ...data, at: new Date().toISOString() });
+        localStorage.setItem(k, JSON.stringify(arr));
+      } catch {}
+      if (ENDPOINT) {
+        try { await fetch(ENDPOINT, { method: 'POST', headers: { Accept: 'application/json' }, body: new FormData(form) }); } catch {}
+      }
+      form.hidden = true;
+      done.hidden = false;
+      done.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    });
+  </script>
+</Base>

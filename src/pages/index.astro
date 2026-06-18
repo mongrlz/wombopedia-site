@@ -1,0 +1,280 @@
+---
+import Base from '../layouts/Base.astro';
+import { allWombos, gloss, firstPos, letterOf, letterSlug, LETTERS, combo, respell } from '../lib/wombos';
+
+const wombos = await allWombos();
+const counts = {
+  total: wombos.length,
+  sendy: wombos.filter((w) => w.data.tier === 'sendy-original').length,
+  deep: wombos.filter((w) => w.data.tier === 'deep-cut').length,
+};
+// per-letter counts for the A–Z grid
+const byLetter: Record<string, number> = {};
+for (const w of wombos) byLetter[letterOf(w)] = (byLetter[letterOf(w)] ?? 0) + 1;
+
+// client index — instant search, Wombo of the Day card, and the "from the stacks" shuffle.
+// Carries the combo + respelling so those surfaces can render a full specimen client-side.
+const index = wombos.map((w) => ({
+  id: w.id,
+  word: w.data.word,
+  pos: firstPos(w),
+  tier: w.data.tier,
+  gloss: gloss(w).slice(0, 120),
+  combo: combo(w.id),
+  respell: respell(w.data.ipa?.[0]),
+}));
+
+// build-time fallback for the Wombo of the Day (JS rotates by day client-side)
+const feat = index.find((e) => e.id === 'peanemis') ?? index[0];
+
+// Hand-tuned collision specimens (exact, brand-safe seams + glosses) lead the rotation…
+const CURATED_SPECIMENS = [
+  { id: 'melanchalant', a: 'melancholy', b: 'nonchalant', lhs: 'Melan', rhs: 'chalant',
+    gloss: 'quietly sad yet entirely unbothered; carrying a low, pensive gloom with studied indifference.' },
+  { id: 'rizzonance', a: 'rizz', b: 'resonance', lhs: 'Rizz', rhs: 'onance',
+    gloss: 'charm so potent it seems to vibrate in everyone nearby; magnetism that lingers in the room.' },
+  { id: 'kirkrisma', a: 'Kirk', b: 'charisma', lhs: 'Kirk', rhs: 'risma',
+    gloss: 'personal magnetism so overwhelming it ceases to register as ordinary charm.' },
+  { id: 'sonsei', a: 'son', b: 'sensei', lhs: 'Son', rhs: 'sei',
+    gloss: 'a cherished friend who doubles, against all sense, as an unlikely mentor.' },
+  { id: 'quiche', a: 'quirky', b: 'niche', lhs: 'Qui', rhs: 'che',
+    gloss: 'offbeat and idiosyncratic in a narrow, hard-to-explain way; quirky and niche at once.' },
+  { id: 'inflaticonomy', a: 'inflation', b: 'economy', lhs: 'Inflati', rhs: 'conomy',
+    gloss: 'the prevailing economy of rising costs and shrinking margins, invoked with a sigh.' },
+  { id: 'nourishedible', a: 'nourishment', b: 'incredible', lhs: 'Nourish', rhs: 'edible',
+    gloss: 'food so nourishing it verges on the incredible; sustenance that quietly astonishes.' },
+];
+
+// …then more, built straight from the verified combo data: the seam falls where source A
+// stops matching the headword's spelling, so the rotation has real variety, not one word.
+const MORE_IDS = [
+  'trashketball', 'brolative', 'oppular', 'prostate', 'nonchalashout', 'twincipal',
+  'balledge', 'yaptitude', 'testicule', 'delugma', 'nickleback', 'profameo',
+  'legiterally', 'uniche', 'enima', 'charigma', 'tweacher', 'wombosis', 'broommate',
+];
+const wById = new Map(wombos.map((w) => [w.id, w]));
+function buildSpec(id: string) {
+  const w = wById.get(id);
+  if (!w) return null;
+  const src = combo(id);
+  if (!src || src.length !== 2) return null;
+  const word = w.data.word;
+  if (/\s/.test(word)) return null; // single-token headwords only, for a clean seam
+  const wl = word.toLowerCase();
+  const a = src[0].toLowerCase();
+  let i = 0;
+  while (i < wl.length && i < a.length && wl[i] === a[i]) i++;
+  const seam = Math.min(Math.max(i, 2), word.length - 2);
+  return { id, a: src[0], b: src[1], lhs: word.slice(0, seam), rhs: word.slice(seam), gloss: gloss(w).slice(0, 110) };
+}
+const SPECIMENS = [...CURATED_SPECIMENS, ...MORE_IDS.map(buildSpec).filter((s): s is NonNullable<typeof s> => !!s)];
+const spec0 = SPECIMENS[0];
+const spec0Gloss = spec0.gloss;
+---
+
+<Base>
+  <section class="hero">
+    <p class="smallcaps overline">The Institute for Vernacular Lexicography · Vol. I · MMXXVI</p>
+    <h1 class="wordmark">WOMBOS</h1>
+    <p class="subtitle">A Scholarly Dictionary of the Vernacular Neologism</p>
+
+    <figure class="specimen" id="specimen">
+      <figcaption class="spec-label smallcaps">Anatomy of a collision</figcaption>
+      <p class="spec-sources">
+        <span class="spec-a">{spec0.a}</span><span class="spec-vs" aria-hidden="true">›‹</span><span class="spec-b">{spec0.b}</span>
+      </p>
+      <a class="spec-fused-link" id="spec-link" href={`/word/${spec0.id}/`} aria-label={`${spec0.lhs}${spec0.rhs} — read the full entry`}>
+        <span class="spec-fused"><span class="spec-lhs">{spec0.lhs}</span><span class="spec-seam" aria-hidden="true"></span><span class="spec-rhs">{spec0.rhs}</span></span>
+      </a>
+      <p class="spec-gloss" id="spec-gloss">{spec0Gloss}</p>
+    </figure>
+
+    <p class="credenza">
+      <strong>wombo</strong> · <span class="ital">n.</span> a word smashed into another word.
+      A discipline founded by <a href="https://www.tiktok.com/@professorsendy" target="_blank" rel="noopener">Professor&nbsp;Sendy</a>.
+    </p>
+  </section>
+
+  <div class="shell">
+    <div class="home-search">
+      <div class="searchwrap">
+        <svg class="search-ic" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
+        <input
+          id="search"
+          class="search-input"
+          type="search"
+          placeholder="Consult the lexicon…"
+          autocomplete="off"
+          spellcheck="false"
+          aria-label="Search wombos"
+          role="combobox"
+          aria-expanded="false"
+          aria-controls="results"
+        />
+      </div>
+      <div id="results" class="results" role="listbox" aria-label="Search results"></div>
+      <p class="stat smallcaps">{counts.total} entries · {counts.sendy} Sendy originals · {counts.deep} deep cuts</p>
+    </div>
+
+    <a class="featured wotd" id="feat-link" href={`/word/${feat.id}/`}>
+      <div class="label">
+        <span class="smallcaps">Wombo of the Day</span>
+        <span class="wotd-badge smallcaps" id="feat-tier">{feat.tier === 'sendy-original' ? '✓ Sendy original' : 'Deep cut'}</span>
+      </div>
+      <h2 id="feat-word" class:list={['fw', { long: feat.word.length > 24 }]}>{feat.word}</h2>
+      <p class="wotd-meta">
+        {feat.pos && <span class="wotd-pos" id="feat-pos">{feat.pos}</span>}
+        <span class="wotd-respell" id="feat-respell">{feat.respell ? `\\ ${feat.respell} \\` : ''}</span>
+      </p>
+      <p id="feat-gloss" class="fg">{feat.gloss}</p>
+      <p class="wotd-combo" id="feat-combo">
+        {feat.combo && [
+          <span class="smallcaps wotd-combo-label">The Combo</span>,
+          ...feat.combo.flatMap((s, i) => (i > 0 ? [<span class="combo-op" aria-hidden="true">+</span>, <span class="combo-src">{s}</span>] : [<span class="combo-src">{s}</span>])),
+          <span class="combo-op" aria-hidden="true">=</span>,
+          <span class="combo-result">{feat.word}</span>,
+        ]}
+      </p>
+      <span class="wotd-cta smallcaps">Read the full entry →</span>
+    </a>
+
+    <section class="stacks" aria-label="A handful of entries from the lexicon">
+      <div class="stacks-head">
+        <p class="smallcaps">From the stacks</p>
+        <button class="shuffle smallcaps" id="shuffle" type="button">Reshuffle ⟳</button>
+      </div>
+      <div class="stacks-grid" id="stacks"></div>
+    </section>
+
+    <nav class="home-az" aria-label="Browse by letter">
+      <p class="smallcaps">Browse A–Z</p>
+      <div class="azbar">
+        {LETTERS.map((L) =>
+          byLetter[L] ? (
+            <a href={`/browse/${letterSlug(L)}/`}>{L}</a>
+          ) : (
+            <span class="disabled">{L}</span>
+          ),
+        )}
+      </div>
+      <p style="margin-top:1rem;"><a href="/browse">See the full index →</a></p>
+    </nav>
+  </div>
+
+  <script type="application/json" id="widx" set:html={JSON.stringify(index)} is:inline></script>
+  <script type="application/json" id="spec-data" set:html={JSON.stringify(SPECIMENS)} is:inline></script>
+  <script>
+    const idx = JSON.parse(document.getElementById('widx').textContent);
+    const input = document.getElementById('search');
+    const results = document.getElementById('results');
+    let active = -1, current = [];
+
+    function render(q) {
+      q = q.trim().toLowerCase();
+      if (!q) { results.innerHTML = ''; input.setAttribute('aria-expanded', 'false'); current = []; return; }
+      const starts = [], has = [];
+      for (const e of idx) {
+        const w = e.word.toLowerCase();
+        if (w.startsWith(q)) starts.push(e);
+        else if (w.includes(q) || (e.gloss || '').toLowerCase().includes(q)) has.push(e);
+      }
+      current = [...starts, ...has].slice(0, 12);
+      active = -1;
+      if (!current.length) { results.innerHTML = '<div class="none">No entry for “' + q + '”. Perhaps you ought to submit it.</div>'; return; }
+      results.innerHTML = current.map((e, i) =>
+        `<a role="option" id="r${i}" href="/word/${e.id}/"><span class="w">${e.word}</span><span class="g">${e.gloss || ''}</span></a>`
+      ).join('');
+      input.setAttribute('aria-expanded', 'true');
+    }
+    function move(d) {
+      const links = results.querySelectorAll('a');
+      if (!links.length) return;
+      links.forEach((l) => l.classList.remove('active'));
+      active = (active + d + links.length) % links.length;
+      links[active].classList.add('active');
+      links[active].scrollIntoView({ block: 'nearest' });
+    }
+    input.addEventListener('input', () => render(input.value));
+    input.addEventListener('keydown', (e) => {
+      if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
+      else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
+      else if (e.key === 'Enter' && current[active]) { location.href = '/word/' + current[active].id + '/'; }
+      else if (e.key === 'Escape') { input.value = ''; render(''); }
+    });
+    // (site-wide search palette lives in the header and owns the "/" and ⌘K shortcuts)
+
+    // day-of-year, shared by the hero specimen and the Wombo of the Day
+    const now = new Date();
+    const doy = Math.floor((now - new Date(now.getFullYear(), 0, 0)) / 86400000);
+    const esc = (s) => (s || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+
+    // Hero collision — verified specimens rotate, each performing a fresh smash. Hover or
+    // focus pauses so a word can be read and clicked through. Reduced motion: the words
+    // still switch, just without the slam.
+    const specimens = JSON.parse(document.getElementById('spec-data').textContent);
+    const fig = document.getElementById('specimen');
+    if (fig && specimens.length) {
+      const link = document.getElementById('spec-link');
+      const elA = fig.querySelector('.spec-a'), elB = fig.querySelector('.spec-b');
+      const elL = fig.querySelector('.spec-lhs'), elR = fig.querySelector('.spec-rhs');
+      const fused = fig.querySelector('.spec-fused');
+      const glossEl = document.getElementById('spec-gloss');
+      const reduce = matchMedia('(prefers-reduced-motion: reduce)').matches;
+      let i = doy % specimens.length, timer = null;
+
+      const renderSpec = (s) => {
+        elA.textContent = s.a; elB.textContent = s.b;
+        elL.textContent = s.lhs; elR.textContent = s.rhs;
+        fused.classList.toggle('long', (s.lhs + s.rhs).length > 13);
+        link.setAttribute('href', '/word/' + s.id + '/');
+        link.setAttribute('aria-label', s.lhs + s.rhs + ' — read the full entry');
+        glossEl.textContent = s.gloss;
+        if (!reduce) { fig.classList.remove('collide'); void fig.offsetWidth; fig.classList.add('collide'); }
+      };
+      const next = () => { i = (i + 1) % specimens.length; renderSpec(specimens[i]); };
+      renderSpec(specimens[i]);
+
+      const start = () => { if (!timer && !document.hidden) timer = setInterval(next, 4600); };
+      const stop = () => { if (timer) { clearInterval(timer); timer = null; } };
+      start();
+      fig.addEventListener('mouseenter', stop);
+      fig.addEventListener('mouseleave', start);
+      link.addEventListener('focus', stop);
+      link.addEventListener('blur', start);
+      document.addEventListener('visibilitychange', () => (document.hidden ? stop() : start()));
+    }
+
+    // Wombo of the Day — a full specimen card, rotating by day over the whole lexicon
+    const comboHTML = (e) => {
+      if (!e.combo) return '';
+      const pills = e.combo.map((s) => '<span class="combo-src">' + esc(s) + '</span>').join('<span class="combo-op" aria-hidden="true">+</span>');
+      return '<span class="smallcaps wotd-combo-label">The Combo</span>' + pills + '<span class="combo-op" aria-hidden="true">=</span><span class="combo-result">' + esc(e.word) + '</span>';
+    };
+    const wod = idx[doy % idx.length];
+    if (wod) {
+      const fw = document.getElementById('feat-word');
+      fw.textContent = wod.word;
+      fw.classList.toggle('long', wod.word.length > 24);
+      document.getElementById('feat-gloss').textContent = wod.gloss || '';
+      const pos = document.getElementById('feat-pos'); if (pos) pos.textContent = wod.pos || '';
+      document.getElementById('feat-respell').textContent = wod.respell ? '\\ ' + wod.respell + ' \\' : '';
+      const tier = document.getElementById('feat-tier');
+      tier.textContent = wod.tier === 'sendy-original' ? '✓ Sendy original' : 'Deep cut';
+      tier.classList.toggle('is-deep', wod.tier !== 'sendy-original');
+      const cmb = document.getElementById('feat-combo'); cmb.innerHTML = comboHTML(wod); cmb.hidden = !wod.combo;
+      document.getElementById('feat-link').setAttribute('href', '/word/' + wod.id + '/');
+    }
+
+    // From the stacks — a few random entries, reshuffled on demand
+    const stacks = document.getElementById('stacks');
+    const pickRandom = (n) => { const pool = idx.slice(), out = []; while (out.length < n && pool.length) out.push(pool.splice(Math.floor(Math.random() * pool.length), 1)[0]); return out; };
+    const renderStacks = () => {
+      if (!stacks) return;
+      stacks.innerHTML = pickRandom(3).map((e) =>
+        '<a class="stack-card" href="/word/' + e.id + '/"><span class="stack-tier smallcaps">' + (e.tier === 'sendy-original' ? 'Sendy original' : 'Deep cut') + '</span><span class="stack-word">' + esc(e.word) + '</span><span class="stack-gloss">' + esc(e.gloss || '') + '</span></a>'
+      ).join('');
+    };
+    renderStacks();
+    document.getElementById('shuffle')?.addEventListener('click', renderStacks);
+  </script>
+</Base>

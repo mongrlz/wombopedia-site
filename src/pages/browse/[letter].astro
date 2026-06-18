@@ -1,0 +1,105 @@
+---
+import Base from '../../layouts/Base.astro';
+import { allWombos, gloss, firstPos, letterOf, letterSlug, LETTERS } from '../../lib/wombos';
+
+export async function getStaticPaths() {
+  const list = await allWombos();
+  const groups: Record<string, typeof list> = {};
+  for (const w of list) (groups[letterOf(w)] ??= []).push(w);
+  return Object.entries(groups).map(([L, entries]) => ({
+    params: { letter: letterSlug(L) },
+    props: {
+      letter: L,
+      present: Object.keys(groups),
+      entries: entries
+        .slice()
+        .sort(
+          (a, b) =>
+            (a.data.tier === 'sendy-original' ? 0 : 1) - (b.data.tier === 'sendy-original' ? 0 : 1) ||
+            a.data.word.toLowerCase().localeCompare(b.data.word.toLowerCase()),
+        )
+        .map((w) => ({
+        id: w.id,
+        word: w.data.word,
+        ipa: w.data.ipa?.[0] ?? '',
+        pos: firstPos(w),
+        tier: w.data.tier,
+        gloss: gloss(w).slice(0, 150),
+      })),
+    },
+  }));
+}
+
+const { letter, entries, present } = Astro.props;
+const presentSet = new Set(present);
+// guide words: the alphabetically first and last headword on this page, set in the
+// corners like a printed dictionary's running heads (entries display tier-first).
+const alpha = entries.map((e) => e.word).sort((a, b) => a.toLowerCase().localeCompare(b.toLowerCase()));
+const firstWord = alpha[0];
+const lastWord = alpha[alpha.length - 1];
+---
+
+<Base title={`${letter} — WOMBOS`} description={`Wombos beginning with ${letter}.`}>
+  <div class="browse-head">
+    <p class="smallcaps"><a href="/browse">The Lexicon</a> · {entries.length} entries</p>
+    <h1>{letter}</h1>
+    {firstWord && (
+      <p class="guidewords" aria-hidden="true">
+        <span class="gw">{firstWord}</span>
+        <span class="gw-dash"></span>
+        <span class="gw">{lastWord}</span>
+      </p>
+    )}
+  </div>
+
+  <div class="shell">
+    <nav class="azbar" aria-label="Jump to letter">
+      {LETTERS.map((L) =>
+        presentSet.has(L) ? (
+          <a href={`/browse/${letterSlug(L)}/`} aria-current={L === letter ? 'page' : undefined} style={L === letter ? 'background:var(--ink);color:var(--paper)' : ''}>{L}</a>
+        ) : (
+          <span class="disabled">{L}</span>
+        ),
+      )}
+    </nav>
+
+    <div class="tierfilter" role="group" aria-label="Filter by tier">
+      <a href="#" data-filter="all" aria-current="true">All</a>
+      <a href="#" data-filter="sendy-original">Sendy originals</a>
+      <a href="#" data-filter="deep-cut">Deep cuts</a>
+    </div>
+
+    <div id="list">
+      {entries.map((e) => (
+        <a class="entry" href={`/word/${e.id}/`} data-tier={e.tier}>
+          <div class="entry-head">
+            <h2 class:list={['entry-word', { long: e.word.length > 40 }]}>{e.word}</h2>
+            {e.ipa && <span class="entry-ipa">{e.ipa}</span>}
+            {e.pos && <span class="entry-pos">{e.pos}</span>}
+            {e.tier === 'deep-cut'
+              ? <span class="badge badge--deep">Deep cut</span>
+              : <span class="badge badge--sendy">Sendy original</span>}
+            <span class="entry-more smallcaps">Full entry ›</span>
+          </div>
+          {e.gloss && <p class="entry-gloss">{e.gloss}</p>}
+        </a>
+      ))}
+    </div>
+  </div>
+
+  <script>
+    const btns = document.querySelectorAll('.tierfilter a');
+    const rows = document.querySelectorAll('#list .entry');
+    btns.forEach((b) =>
+      b.addEventListener('click', (e) => {
+        e.preventDefault();
+        const f = b.getAttribute('data-filter');
+        btns.forEach((x) => x.removeAttribute('aria-current'));
+        b.setAttribute('aria-current', 'true');
+        rows.forEach((r) => {
+          r.style.display = f === 'all' || r.getAttribute('data-tier') === f ? '' : 'none';
+        });
+      }),
+    );
+  </script>
+</Base>

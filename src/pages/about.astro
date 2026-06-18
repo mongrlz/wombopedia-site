@@ -1,0 +1,49 @@
+---
+import Base from '../layouts/Base.astro';
+import { allWombos } from '../lib/wombos';
+const n = (await allWombos()).length;
+---
+
+<Base title="About — WOMBOS" description="What a wombo is, and how this dictionary is built.">
+  <div class="browse-head">
+    <p class="smallcaps">The Institute for Vernacular Lexicography</p>
+    <h1>About the Lexicon</h1>
+  </div>
+
+  <article class="shell measure" style="margin-block: 2rem 1rem; line-height: 1.7;">
+    <p style="font-size: var(--t-md);">
+      A <strong>wombo</strong> is a word smashed into another word — a portmanteau in the
+      vernacular tradition. The discipline was founded by
+      <a href="https://www.tiktok.com/@professorsendy" target="_blank" rel="noopener">Professor&nbsp;Sendy</a>,
+      who coins them, defines them, and stacks them with deadpan rigor. This is the
+      first attempt to catalogue the canon in full — currently <strong>{n}</strong> entries.
+    </p>
+
+    <hr class="rule-hair" style="margin: 1.6rem 0;" />
+
+    <h2 class="smallcaps" style="letter-spacing:0.16em;">How it's built</h2>
+    <p>
+      Every entry is drawn from Professor Sendy's own videos. The spelling of each headword
+      is taken from the on-screen card (the authoritative source — speech alone mangles a
+      coinage), and the meaning from what he actually says. Definitions are rewritten in a
+      neutral dictionary register and credited to him; this is a tribute, not a monetized
+      product.
+    </p>
+
+    <h2 class="smallcaps" style="letter-spacing:0.16em; margin-top:1.6rem;">The two tiers</h2>
+    <p>
+      <span class="badge badge--sendy">Sendy original</span> — a wombo that headlined its own
+      video, defined in full.
+    </p>
+    <p>
+      <span class="badge badge--deep">Deep cut</span> — a secondary coinage Sendy slipped into
+      another video, confirmed on-screen. The deep cuts are where the lore lives.
+    </p>
+
+    <hr class="rule-hair" style="margin: 1.6rem 0;" />
+    <p class="ital" style="color:var(--ink-soft)">
+      Built by <a href="https://kick.com/mongrlz" target="_blank" rel="noopener">mongrlz 🦉</a>.
+      All credit for the discipline of wombos to its inventor.
+    </p>
+  </article>
+</Base>

@@ -1,0 +1,251 @@
+---
+import Base from '../../layouts/Base.astro';
+import { allWombos, gloss, wordMap, linkify, relatives, combo, comboUnresolved, respell } from '../../lib/wombos';
+
+export async function getStaticPaths() {
+  const list = await allWombos();
+  const idx = list.map((w) => ({ id: w.id, word: w.data.word }));
+  return list.map((w, i) => ({
+    params: { id: w.id },
+    props: {
+      data: w.data,
+      id: w.id,
+      family: relatives(w.data.word, idx, w.id),
+      prev: i > 0 ? { id: list[i - 1].id, word: list[i - 1].data.word } : null,
+      next: i < list.length - 1 ? { id: list[i + 1].id, word: list[i + 1].data.word } : null,
+      near: list
+        .slice(Math.max(0, i - 2), i + 3)
+        .map((n) => ({ id: n.id, word: n.data.word, current: n.id === w.id })),
+    },
+  }));
+}
+
+const { data, id, near, family, prev, next } = Astro.props;
+const map = await wordMap();
+const long = data.word.length > 13;
+const total = data.parts.length;
+// ported modules: the source-word "combo", a friendly respelling, unique parts of speech
+const cmb = combo(id);
+const comboInvite = !cmb && comboUnresolved(id); // clearly a blend, sources not yet pinned
+const resp = respell(data.ipa?.[0]);
+const posList = [...new Set(data.parts.map((p) => p.pos).filter(Boolean))];
+const jsonld = {
+  '@context': 'https://schema.org',
+  '@type': 'DefinedTerm',
+  name: data.word,
+  description: gloss({ data } as any) || data.etymology,
+  termCode: id,
+  inDefinedTermSet: {
+    '@type': 'DefinedTermSet',
+    name: 'WOMBOS — A Dictionary of the Vernacular Neologism',
+    url: new URL('/', Astro.site ?? 'https://wombos.dev').href,
+  },
+};
+---
+
+<Base
+  title={`${data.word} — WOMBOS`}
+  description={(gloss({ data } as any) || data.etymology || '').slice(0, 155)}
+  jsonld={jsonld}
+>
+  <div class="detail-top">
+    <a class="back-link" href="/browse">‹ The Lexicon</a>
+  </div>
+
+  <div class="detail-grid">
+    <nav class="sense-nav" aria-label="In this entry">
+      <p class="rail-head smallcaps">In this entry</p>
+      {data.parts.map((p, i) => (
+        <a class="rail-link" href={`#part-${i}`}>{p.label || p.pos}</a>
+      ))}
+      {data.synonyms.length > 0 && <a class="rail-link" href="#sec-syn">Synonyms</a>}
+      {family.length > 0 && <a class="rail-link" href="#sec-fam">Word Family</a>}
+      <a class="rail-link" href="#sec-hist">Word History</a>
+      <a class="rail-link" href="#sec-near">Entries Near</a>
+      <button class="save-btn" id="save" data-id={id}>Save Word ✚</button>
+    </nav>
+
+    <main class="dt-main">
+      <div class="dt-head">
+        <h1 class:list={['dt-word', { long }]}>{data.word}</h1>
+        {posList.length > 0 && (
+          <div class="pos-pills">{posList.map((p) => <span class="pos-pill">{p}</span>)}</div>
+        )}
+        <div class="dt-pron">
+          {resp && <span class="dt-respell">\ {resp} \</span>}
+          {data.ipa.map((p) => <span class="dt-ipa">{p}</span>)}
+          <button class="iconbtn speak-btn" id="speak" data-word={data.word} aria-label={`Pronounce ${data.word}`} title="Pronounce">
+            <svg width="17" height="17" viewBox="0 0 24 24"><path fill="currentColor" d="M3 9v6h4l5 5V4L7 9H3z" /><path fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" d="M16 8.5a4.5 4.5 0 0 1 0 7M18.5 6a8 8 0 0 1 0 12" /></svg>
+          </button>
+        </div>
+        {data.tier === 'deep-cut' ? (
+          <span class="badge badge--deep dt-tier">Deep cut · also-coined in another video</span>
+        ) : (
+          <span class="badge badge--sendy dt-tier">✓ Sendy original</span>
+        )}
+      </div>
+
+      {data.parts.map((p, i) => (
+        <section class="dt-part" id={`part-${i}`}>
+          <div class="dt-part-head">
+            <span class="dt-pos">{p.pos}</span>
+            {total > 1 && <span class="smallcaps">{i + 1} of {total}</span>}
+            {p.label && <span class="dt-label smallcaps">{p.label}</span>}
+          </div>
+          {p.forms && (
+            <p class="dt-forms"><span class="smallcaps">Inflections</span> <span class="ital">{p.forms}</span></p>
+          )}
+          {p.senses.map((s) => (
+            <div class="sense">
+              <span class="sense-num">{s.num ?? '1'}</span>
+              <div class="sense-body">
+                <p class="sense-def">{s.def}</p>
+                {s.subsenses?.map((sub) => (
+                  <div class="subsense">
+                    <span class="subsense-l">{sub.letter}</span>
+                    <div>
+                      <p class="sense-def">{sub.def}</p>
+                      {sub.example && (
+                        <div class="cite">
+                          <span class="cite-year">{sub.example.year ?? ''}</span>
+                          <div>
+                            <p class="cite-q">“<Fragment set:html={linkify(sub.example.text, map, id)} />”</p>
+                            {sub.example.source && <p class="cite-src smallcaps">— {sub.example.source}</p>}
+                          </div>
+                        </div>
+                      )}
+                    </div>
+                  </div>
+                ))}
+                {s.examples?.map((ex) => (
+                  <div class="cite">
+                    <span class="cite-year">{ex.year ?? ''}</span>
+                    <div>
+                      <p class="cite-q">“<Fragment set:html={linkify(ex.text, map, id)} />”</p>
+                      {ex.source && <p class="cite-src smallcaps">— {ex.source}</p>}
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          ))}
+        </section>
+      ))}
+
+      {data.synonyms.length > 0 && (
+        <section class="dt-section" id="sec-syn">
+          <h2>Synonyms</h2>
+          <div class="syn-list">{data.synonyms.map((s) => <span class="syn">{s}</span>)}</div>
+        </section>
+      )}
+
+      {family.length > 0 && (
+        <section class="dt-section" id="sec-fam">
+          <h2>Word Family</h2>
+          <p class="fam-note ital" style="color:var(--ink-soft); margin:0 0 0.75rem;">
+            Wombos built from the same root — derivatives, escalations, and kin of <em>{data.word}</em>.
+          </p>
+          <ul class="fam-list">
+            {family.map((f) => (
+              <li><a class="fam" href={`/word/${f.id}/`}>{f.word}</a></li>
+            ))}
+          </ul>
+        </section>
+      )}
+
+      <section class="dt-section" id="sec-hist">
+        <h2>Word History</h2>
+        {cmb && (
+          <div class="combo-wrap">
+            <p class="smallcaps combo-label">The Combo</p>
+            <p class="combo" aria-label={`${cmb.join(' plus ')} makes ${data.word}`}>
+              {cmb.map((src, i) => (
+                <>
+                  {i > 0 && <span class="combo-op" aria-hidden="true">+</span>}
+                  <span class="combo-src">{src}</span>
+                </>
+              ))}
+              <span class="combo-op" aria-hidden="true">=</span>
+              <span class="combo-result">{data.word}</span>
+            </p>
+          </div>
+        )}
+        {comboInvite && (
+          <p class="combo-invite">
+            <span class="smallcaps combo-label">The Combo</span>
+            Source words not yet verified. <a href={`/issues/?type=combo&word=${encodeURIComponent(data.word)}`}>Know the smash? Submit it →</a>
+          </p>
+        )}
+        {data.etymology && (
+          <p class="hist-p hist-etym"><span class="drop" aria-hidden="true">{data.etymology.charAt(0)}</span>{data.etymology.slice(1)}</p>
+        )}
+        {data.firstKnownUse && (
+          <p class="hist-p"><span class="smallcaps hist-tag">First Known Use</span> <strong>{data.firstKnownUse}</strong></p>
+        )}
+        {data.origin && <p class="hist-p ital" style="color:var(--ink-soft)">Coinage credited to {data.origin}.</p>}
+        {data.video && (
+          <p class="hist-p attestation">
+            <span class="smallcaps hist-tag">Attested in</span>
+            <a class="attest-link" href={`https://www.tiktok.com/@professorsendy/video/${data.video}`} target="_blank" rel="noopener">
+              <span class="play" aria-hidden="true"><svg width="11" height="11" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5v14l11-7z" /></svg></span>
+              the source utterance, @ProfessorSendy ↗
+            </a>
+          </p>
+        )}
+      </section>
+
+      <section class="dt-section" id="sec-near">
+        <h2>Entries Near</h2>
+        <ul class="near-list">
+          {near.map((n) => (
+            <li>{n.current ? <span class="cur">{n.word}</span> : <a href={`/word/${n.id}/`}>{n.word}</a>}</li>
+          ))}
+        </ul>
+      </section>
+
+      <nav class="entry-nav" aria-label="Adjacent entries">
+        {prev ? (
+          <a class="entry-nav-link prev" href={`/word/${prev.id}/`}>
+            <span class="smallcaps en-dir">‹ Previous</span>
+            <span class="en-word">{prev.word}</span>
+          </a>
+        ) : <span></span>}
+        {next ? (
+          <a class="entry-nav-link next" href={`/word/${next.id}/`}>
+            <span class="smallcaps en-dir">Next ›</span>
+            <span class="en-word">{next.word}</span>
+          </a>
+        ) : <span></span>}
+      </nav>
+    </main>
+  </div>
+
+  <script>
+    document.getElementById('speak')?.addEventListener('click', (e) => {
+      const w = e.currentTarget.getAttribute('data-word');
+      if ('speechSynthesis' in window && w) {
+        speechSynthesis.cancel();
+        speechSynthesis.speak(new SpeechSynthesisUtterance(w));
+      }
+    });
+    const save = document.getElementById('save');
+    if (save) {
+      const id = save.getAttribute('data-id');
+      const key = 'wombos.saved';
+      const get = () => { try { return JSON.parse(localStorage.getItem(key)) || []; } catch { return []; } };
+      const sync = () => {
+        const on = get().includes(id);
+        save.classList.toggle('saved', on);
+        save.textContent = on ? 'Saved ✓' : 'Save Word ✚';
+      };
+      sync();
+      save.addEventListener('click', () => {
+        const list = get();
+        const i = list.indexOf(id);
+        if (i >= 0) list.splice(i, 1); else list.push(id);
+        localStorage.setItem(key, JSON.stringify(list));
+        sync();
+      });
+    }
+  </script>
+</Base>

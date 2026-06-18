@@ -1,0 +1,28 @@
+---
+import Base from '../../layouts/Base.astro';
+import { allWombos, letterOf, letterSlug, LETTERS } from '../../lib/wombos';
+
+const wombos = await allWombos();
+const byLetter: Record<string, number> = {};
+for (const w of wombos) byLetter[letterOf(w)] = (byLetter[letterOf(w)] ?? 0) + 1;
+---
+
+<Base title="The Lexicon — Browse A–Z · WOMBOS" description="Browse all 358 wombos alphabetically.">
+  <div class="browse-head">
+    <p class="smallcaps">The Lexicon · {wombos.length} entries</p>
+    <h1>Browse A–Z</h1>
+  </div>
+  <div class="shell">
+    <div class="letter-grid">
+      {LETTERS.map((L) =>
+        byLetter[L] ? (
+          <a class="letter-card" href={`/browse/${letterSlug(L)}/`}>
+            <span class="L">{L}</span><span class="n">{byLetter[L]}</span>
+          </a>
+        ) : (
+          <span class="letter-card empty"><span class="L">{L}</span></span>
+        ),
+      )}
+    </div>
+  </div>
+</Base>

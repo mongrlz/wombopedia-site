@@ -1,0 +1,43 @@
+---
+import Base from '../layouts/Base.astro';
+---
+
+<Base title="Saved — WOMBOS" description="Your saved wombos.">
+  <div class="browse-head">
+    <p class="smallcaps">Your collection</p>
+    <h1>Saved Words</h1>
+  </div>
+  <div class="shell">
+    <div id="saved-list" style="margin-top:1.5rem;"></div>
+  </div>
+
+  <script>
+    (async () => {
+      const el = document.getElementById('saved-list');
+      const empty =
+        '<p style="text-align:center;color:var(--faint);font-style:italic;padding:2.5rem 0;">No saved words yet. Tap “Save Word ✚” on any entry and it’ll live here.</p>';
+      let ids = [];
+      try { ids = JSON.parse(localStorage.getItem('wombos.saved')) || []; } catch {}
+      if (!ids.length) { el.innerHTML = empty; return; }
+      const idx = await fetch('/words-index.json').then((r) => r.json());
+      const byId = Object.fromEntries(idx.map((w) => [w.id, w]));
+      const items = ids.map((id) => byId[id]).filter(Boolean).reverse();
+      if (!items.length) { el.innerHTML = empty; return; }
+      const esc = (s) => (s || '').replace(/[&<>]/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;' }[c]));
+      el.innerHTML = items
+        .map(
+          (w) => `
+        <a class="entry" href="/word/${w.id}/">
+          <div class="entry-head">
+            <h2 class="entry-word${w.word.length > 40 ? ' long' : ''}">${esc(w.word)}</h2>
+            ${w.pos ? `<span class="entry-pos">${esc(w.pos)}</span>` : ''}
+            <span class="badge ${w.tier === 'deep-cut' ? 'badge--deep' : 'badge--sendy'}">${w.tier === 'deep-cut' ? 'Deep cut' : 'Sendy original'}</span>
+            <span class="entry-more smallcaps">Full entry ›</span>
+          </div>
+          ${w.gloss ? `<p class="entry-gloss">${esc(w.gloss)}</p>` : ''}
+        </a>`,
+        )
+        .join('');
+    })();
+  </script>
+</Base>
