@@ -20186,7 +20186,7 @@
     "status": "canon",
     "tier": "deep-cut",
     "firstKnownUse": "2026",
-    "etymology": "cue + euphoria",
+    "etymology": "A blend (wombo) of CUTE + EUPHORIA, shown on screen by Professor Sendy as \"Cute + Euphoria = Cuephoria.\"",
     "synonyms": [],
     "parts": [
       {
@@ -20194,11 +20194,12 @@
         "senses": [
           {
             "num": 1,
-            "def": "The elation experienced upon receiving a perfectly timed signal or prompt."
+            "def": "the giddy elation brought on by something irresistibly cute."
           }
         ]
       }
-    ]
+    ],
+    "video": "7649120366224215326"
   },
   {
     "id": "deadalmentallockin",
@@ -24173,5 +24174,290 @@
         "forms": "ouinergistic"
       }
     ]
+  },
+  {
+    "id": "chumbowombo",
+    "word": "Chumbowombo",
+    "ipa": [
+      "ˈtʃʌm.boʊˌwɒm.boʊ"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CHUD + MID + BORING + WORD + COMBO, punning on the band name Chumbawamba — famous for \"Tubthumping\" (\"I get knocked down, but I get up again\"). Coined by Professor Sendy for a wombo that falls flat.",
+    "synonyms": [
+      "dud",
+      "clunker"
+    ],
+    "video": "7652484212020301086",
+    "parts": [
+      {
+        "pos": "noun",
+        "label": "informal",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a bad, lame, or charmless wombo; a word-combo that fails to land.",
+            "examples": [
+              {
+                "text": "Maybe you make one that’s twice as off — like \"peanut moist.\" Just be like, that’s a chumbowombo, stop it.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "goonies",
+    "word": "Goonies",
+    "ipa": [
+      "ˈɡuː.niz"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of GOOD + OPINION + HOMIES (compare goonion, good + opinion). Coined by Professor Sendy for friends who are a steadying, positive presence.",
+    "synonyms": [
+      "good influence",
+      "real ones"
+    ],
+    "video": "7652450183430573342",
+    "parts": [
+      {
+        "pos": "noun",
+        "label": "plural",
+        "forms": "usually plural",
+        "senses": [
+          {
+            "num": 1,
+            "def": "friends who are a genuinely good influence; homies whose opinions are sound.",
+            "examples": [
+              {
+                "text": "These aren’t the looksmaxxers, these aren’t the cloud-chasers — these are the friends with goonies, always a good influence.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "manure",
+    "word": "Manure",
+    "ipa": [
+      "məˈnʊər",
+      "məˈnjʊr"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of the spoken phrase MAN, YOU’RE, overwriting the existing word \"manure.\" Coined by Professor Sendy as the opener of an affirming pep talk — \"manure not ugly\" = \"man, you’re not ugly.\"",
+    "synonyms": [],
+    "video": "7652396012887084319",
+    "parts": [
+      {
+        "pos": "phrase",
+        "label": "informal",
+        "senses": [
+          {
+            "num": 1,
+            "def": "used to begin an affectionate reassurance, as in \"man, you’re —\"; a pep-talk opener.",
+            "examples": [
+              {
+                "text": "Manure not ugly, manure not stinky, manure not lonely — manure having the perfect amount of dinobology.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "meafpeanemis",
+    "word": "Meafpeanemis",
+    "ipa": [
+      "ˌmiːæfpiˈæn.ə.mɪs"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of ME + AF (colloquial intensifier) + PEANEMIS (itself PEAK + CINEMA + ANALYSIS). Coined by Professor Sendy in a run of stacked peanemis variants.",
+    "synonyms": [],
+    "video": "7651683525845896479",
+    "parts": [
+      {
+        "pos": "noun",
+        "label": "informal",
+        "senses": [
+          {
+            "num": 1,
+            "def": "peak cinema analysis turned emphatically on oneself; one’s own life regarded as top-tier cinema.",
+            "examples": [
+              {
+                "text": "Me af peanemis.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "oui",
+    "word": "Oui",
+    "ipa": [
+      "wi",
+      "ˈuː.i"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of the interjections OUU + SHI (\"ouu, shi\"), cries of admiration. Shown on screen by Professor Sendy as \"Ouu + Shi = Oui.\" The base of the related ouinergy (ouu + shi + energy).",
+    "synonyms": [
+      "ooh",
+      "damn"
+    ],
+    "video": "7649120366224215326",
+    "parts": [
+      {
+        "pos": "interjection",
+        "label": "informal",
+        "senses": [
+          {
+            "num": 1,
+            "def": "an exclamation of admiration or delight; the appreciative \"ouu, shi\" fused into a single cry.",
+            "examples": [
+              {
+                "text": "Ouu, shi — oui.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "blocked-in",
+    "word": "Blocked In",
+    "ipa": [
+      "ˈblɒkt ˌɪn"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of BALL + LOCKED IN, shown on screen as \"Ball + Locked In = Blocked In.\" To be locked in (intensely focused), specifically on ball.",
+    "synonyms": [
+      "locked in",
+      "dialed"
+    ],
+    "video": "7649120366224215326",
+    "parts": [
+      {
+        "pos": "adjective",
+        "label": "informal",
+        "senses": [
+          {
+            "num": 1,
+            "def": "so completely locked in — especially on ball or sport — that nothing else gets through; focus walled off from the world.",
+            "examples": [
+              {
+                "text": "He was so blocked in he didn’t hear his own name.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "ronaldiall",
+    "word": "Ronaldiall",
+    "ipa": [
+      "roʊˈnɑːl.di.ɔːl"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of RONALDO + MESSI + BALL, shown on screen as \"Ronaldo + Messi + Ball = Ronaldiall.\" Fusing football’s two GOATs into one byword for supreme skill at ball.",
+    "synonyms": [
+      "goat",
+      "baller"
+    ],
+    "video": "7649120366224215326",
+    "parts": [
+      {
+        "pos": "noun",
+        "label": "informal",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a person of supreme, GOAT-tier ability at ball; the combined prowess of Ronaldo and Messi in one.",
+            "examples": [
+              {
+                "text": "The way he moves? Straight-up Ronaldiall.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "radiator",
+    "word": "Radiator",
+    "ipa": [
+      "ˈreɪ.di.eɪ.tər"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of RADIANT + CREATOR, overwriting the existing word \"radiator.\" Shown on screen as \"Radiant + Creator = Radiator.\" A creator whose presence radiates.",
+    "synonyms": [
+      "glow-up",
+      "beacon"
+    ],
+    "video": "7649120366224215326",
+    "parts": [
+      {
+        "pos": "noun",
+        "label": "informal",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a creator who radiates warmth, energy, or charisma; a maker whose presence glows.",
+            "examples": [
+              {
+                "text": "Every post lights up the feed — a total radiator.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
   }
 ]
