@@ -55,3 +55,9 @@ scripts/       gen-combos.cjs
 ## Credit
 
 All credit for the discipline of wombos to **@ProfessorSendy**, its inventor.
+
+## License
+
+Code and site are released under the [MIT License](LICENSE) — free to use, fork,
+and redistribute. The wombos themselves are the coinages of **@ProfessorSendy**;
+this is a fan tribute, not a monetized product.

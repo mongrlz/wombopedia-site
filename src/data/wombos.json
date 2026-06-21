@@ -17011,7 +17011,7 @@
   },
   {
     "id": "sendimental",
-    "word": "sendimental",
+    "word": "Sendimental",
     "ipa": [],
     "origin": "Professor Sendy",
     "status": "canon",
@@ -17457,7 +17457,7 @@
   },
   {
     "id": "susess",
-    "word": "susess",
+    "word": "Susess",
     "ipa": [],
     "origin": "Professor Sendy",
     "status": "canon",
@@ -23131,13 +23131,15 @@
   },
   {
     "id": "loreanalvisions",
-    "word": "loreanalvisions",
-    "ipa": [],
+    "word": "Loreanalvisions",
+    "ipa": [
+      "ˌlɔːr.əˈnæl.vɪʒ.ənz"
+    ],
     "origin": "Professor Sendy",
     "status": "canon",
     "tier": "deep-cut",
     "firstKnownUse": "2026",
-    "etymology": "lore + Lorraine + analysis + visions",
+    "etymology": "A chained blend (wombo) of LORE + ANALYSIS + REVISIONS — the deep, revised study of a story's lore. Shown on screen as \"Lore + Analysis + Revisions = Loreanalvisions.\"",
     "synonyms": [],
     "parts": [
       {
@@ -23149,7 +23151,8 @@
           }
         ]
       }
-    ]
+    ],
+    "video": "7652767063223667999"
   },
   {
     "id": "lebronchalashout",
@@ -24452,6 +24455,148 @@
             "examples": [
               {
                 "text": "Every post lights up the feed — a total radiator.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "sope-opera",
+    "word": "Sope Opera",
+    "ipa": [
+      "ˈsoʊp ˌɑː.pər.ə"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of SUPER + DOPE + OPINION + ERA, overwriting the established \"soap opera.\" Shown on screen as \"Super + Dope + Opinion + Era = Sope Opera.\"",
+    "synonyms": [
+      "saga",
+      "melodrama",
+      "discourse"
+    ],
+    "video": "7652767063223667999",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "an ongoing, melodramatic saga of strongly held takes; an era defined by dramatic, super-dope opinions.",
+            "examples": [
+              {
+                "text": "The group chat has become a full-blown sope opera.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ],
+        "label": "informal"
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "dust-nug",
+    "word": "Dust Nug",
+    "ipa": [
+      "ˈdʌst ˌnʌɡ"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of the German DU + BIST + GUT + GENUG (\"du bist gut genug,\" you are good enough), compressed into deadpan nonsense. Shown on screen as \"Du + Bist + Gut + Genug = Dust Nug.\"",
+    "synonyms": [
+      "affirmation",
+      "you're enough"
+    ],
+    "video": "7652767063223667999",
+    "parts": [
+      {
+        "pos": "interjection",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a covert affirmation that one is good enough, smuggled inside apparent gibberish (from German du bist gut genug).",
+            "examples": [
+              {
+                "text": "Rough day? Dust nug, my friend. Dust nug.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "bet-down",
+    "word": "Bet Down",
+    "ipa": [
+      "ˈbɛt ˌdaʊn"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of BET (an enthusiastic \"yes, agreed\") + LET DOWN. Shown on screen as \"Bet + Let Down = Bet Down.\"",
+    "synonyms": [
+      "letdown",
+      "anticlimax"
+    ],
+    "video": "7652767063223667999",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "the disappointment of something you eagerly agreed to (\"bet\") turning into a letdown.",
+            "examples": [
+              {
+                "text": "He swore the sequel would go hard — total bet down.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "honorageable",
+    "word": "Honorageable",
+    "ipa": [
+      "ˌɑː.nəˈrædʒ.ə.bəl"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of HONORABLE + KNOWLEDGEABLE. Shown on screen as \"Honorable + Knowledgeable = Honorageable.\"",
+    "synonyms": [
+      "wise",
+      "respectable"
+    ],
+    "video": "7652767063223667999",
+    "parts": [
+      {
+        "pos": "adjective",
+        "senses": [
+          {
+            "num": 1,
+            "def": "at once honorable and knowledgeable; worthy of respect for both integrity and wisdom.",
+            "examples": [
+              {
+                "text": "Ask the professor — he's the most honorageable head in the room.",
                 "source": "Professor Sendy",
                 "year": "2026"
               }
