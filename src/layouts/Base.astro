@@ -74,7 +74,7 @@ const count = (await allWombos()).length;
       <div class="palette-box">
         <div class="palette-inputwrap">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="11" cy="11" r="7" /><path d="m21 21-4.3-4.3" /></svg>
-          <input id="palette-input" type="search" placeholder={`Search ${count} wombos…`} autocomplete="off" spellcheck="false" aria-controls="palette-results" aria-label="Search wombos" />
+          <input id="palette-input" type="search" placeholder={`Search ${count} wombos…`} autocomplete="off" spellcheck="false" role="combobox" aria-expanded="false" aria-autocomplete="list" aria-controls="palette-results" aria-label="Search wombos" />
           <span class="kbd">esc</span>
         </div>
         <div class="palette-results" id="palette-results" role="listbox" aria-label="Results"></div>
@@ -133,11 +133,12 @@ const count = (await allWombos()).length;
           return fetch('/words-index.json').then(function (r) { return r.json(); }).then(function (j) { data = j; loading = false; }).catch(function () { loading = false; });
         }
         function rows(list) {
-          return list.map(function (e, i) { return '<a class="palette-row" role="option" id="pr' + i + '" href="/word/' + e.id + '/"><span class="palette-w">' + esc(e.word) + '</span><span class="palette-g">' + esc(e.gloss || '') + '</span></a>'; }).join('');
+          return list.map(function (e, i) { return '<a class="palette-row" role="option" aria-selected="false" id="pr' + i + '" href="/word/' + e.id + '/"><span class="palette-w">' + esc(e.word) + '</span><span class="palette-g">' + esc(e.gloss || '') + '</span></a>'; }).join('');
         }
         function renderP(q) {
           q = (q || '').trim().toLowerCase();
           active = -1;
+          input.removeAttribute('aria-activedescendant');
           if (!data) { resultsEl.innerHTML = '<div class="palette-empty">Consulting the lexicon…</div>'; return; }
           if (!q) { current = []; resultsEl.innerHTML = '<div class="palette-empty">Type a word, a meaning, or a fragment.</div>'; return; }
           var starts = [], has = [];
@@ -151,18 +152,42 @@ const count = (await allWombos()).length;
         }
         function move(d) {
           var r = resultsEl.querySelectorAll('.palette-row'); if (!r.length) return;
-          if (active >= 0) r[active].classList.remove('active');
+          if (active >= 0) { r[active].classList.remove('active'); r[active].setAttribute('aria-selected', 'false'); }
           active = (active + d + r.length) % r.length;
-          r[active].classList.add('active'); r[active].scrollIntoView({ block: 'nearest' });
+          r[active].classList.add('active'); r[active].setAttribute('aria-selected', 'true');
+          input.setAttribute('aria-activedescendant', r[active].id);
+          r[active].scrollIntoView({ block: 'nearest' });
         }
-        function open() { palette.hidden = false; document.documentElement.style.overflow = 'hidden'; load().then(function () { input.focus(); renderP(input.value); }); }
-        function close() { palette.hidden = true; document.documentElement.style.overflow = ''; input.value = ''; resultsEl.innerHTML = ''; active = -1; }
+        var lastFocused = null;
+        function focusables() {
+          return Array.prototype.slice.call(palette.querySelectorAll('a[href], button, input'))
+            .filter(function (el) { return el.offsetParent !== null || el === input; });
+        }
+        function open() {
+          lastFocused = document.activeElement;
+          palette.hidden = false; input.setAttribute('aria-expanded', 'true');
+          document.documentElement.style.overflow = 'hidden';
+          load().then(function () { input.focus(); renderP(input.value); });
+        }
+        function close() {
+          palette.hidden = true; input.setAttribute('aria-expanded', 'false');
+          input.removeAttribute('aria-activedescendant');
+          document.documentElement.style.overflow = ''; input.value = ''; resultsEl.innerHTML = ''; active = -1;
+          if (lastFocused && lastFocused.focus) lastFocused.focus();
+        }
         input.addEventListener('input', function () { renderP(input.value); });
         input.addEventListener('keydown', function (e) {
           if (e.key === 'ArrowDown') { e.preventDefault(); move(1); }
           else if (e.key === 'ArrowUp') { e.preventDefault(); move(-1); }
           else if (e.key === 'Enter') { var t = current[active] || current[0]; if (t) location.href = '/word/' + t.id + '/'; }
           else if (e.key === 'Escape') { close(); }
+        });
+        palette.addEventListener('keydown', function (e) {
+          if (e.key !== 'Tab') return;
+          var f = focusables(); if (!f.length) return;
+          var first = f[0], last = f[f.length - 1];
+          if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+          else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
         });
         document.getElementById('nav-search').addEventListener('click', open);
         palette.querySelectorAll('[data-close]').forEach(function (el) { el.addEventListener('click', close); });

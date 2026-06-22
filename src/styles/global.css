@@ -11,7 +11,7 @@
   --paper-card: #f8f3e8;
   --ink: #1c1812;
   --ink-soft: #4a4337;
-  --faint: #8a8170;
+  --faint: #6f6757;
   --rule: #cdc2a7;
   --rule-soft: #ddd3ba;
   --stamp: #8c2f1e;        /* single library-stamp red, used sparingly */
@@ -132,6 +132,7 @@ a:hover { border-bottom-color: var(--stamp); }
 .palette-backdrop { position: absolute; inset: 0; background: color-mix(in srgb, var(--ink) 40%, transparent); backdrop-filter: blur(3px); }
 .palette-box { position: relative; width: min(40rem, 92vw); margin-top: 13vh; background: var(--paper); border: 1px solid var(--rule); border-radius: 8px; box-shadow: 0 26px 70px -22px rgba(0, 0, 0, 0.55); overflow: hidden; }
 .palette-inputwrap { display: flex; align-items: center; gap: 0.7rem; padding: 0.85rem 1.1rem; border-bottom: 1px solid var(--rule); color: var(--faint); }
+.palette-inputwrap:focus-within { border-bottom-color: var(--stamp); color: var(--ink-soft); }
 #palette-input { flex: 1; min-width: 0; border: 0; background: none; font-family: var(--text); font-size: var(--t-md); color: var(--ink); }
 #palette-input:focus { outline: none; }
 .palette-results { max-height: 52vh; overflow: auto; }
@@ -174,7 +175,7 @@ a:hover { border-bottom-color: var(--stamp); }
   background: var(--paper-card); color: var(--ink);
   border: 1px solid var(--rule); border-radius: 3px; transition: 0.18s var(--ease);
 }
-.search-input:focus { outline: none; border-color: var(--ink-soft); box-shadow: var(--shadow); }
+.search-input:focus { border-color: var(--ink-soft); box-shadow: var(--shadow); }
 .search-ic { position: absolute; left: 0.95rem; top: 50%; transform: translateY(-50%); color: var(--faint); pointer-events: none; }
 .kbd { font-family: var(--display); font-size: 0.62rem; letter-spacing: 0.08em; border: 1px solid var(--rule); border-radius: 3px; padding: 2px 6px; color: var(--faint); }
 
@@ -322,7 +323,7 @@ a.featured:hover { transform: translateY(-2px); border-color: var(--stamp); }
   text-transform: none; letter-spacing: 0; color: var(--ink); background: var(--paper-card);
   border: 1px solid var(--rule); border-radius: 3px; padding: 0.6rem 0.75rem; resize: vertical;
 }
-.wform input:focus, .wform select:focus, .wform textarea:focus { outline: none; border-color: var(--ink-soft); }
+.wform input:focus, .wform select:focus, .wform textarea:focus { border-color: var(--ink-soft); }
 .wform-btn { font-family: var(--display); font-size: var(--t-sm); letter-spacing: 0.12em; text-transform: uppercase; padding: 0.75rem 1.6rem; background: var(--ink); color: var(--paper); border: none; border-radius: 3px; cursor: pointer; transition: background 0.18s; }
 .wform-btn:hover { background: var(--stamp); }
 .wform-done { text-align: center; padding: 2rem 1rem; border: 1px solid var(--rule); border-radius: 4px; background: var(--paper-card); }

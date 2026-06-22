@@ -109,6 +109,7 @@ const spec0Gloss = spec0.gloss;
           aria-label="Search wombos"
           role="combobox"
           aria-expanded="false"
+          aria-autocomplete="list"
           aria-controls="results"
         />
       </div>
@@ -171,7 +172,7 @@ const spec0Gloss = spec0.gloss;
 
     function render(q) {
       q = q.trim().toLowerCase();
-      if (!q) { results.innerHTML = ''; input.setAttribute('aria-expanded', 'false'); current = []; return; }
+      if (!q) { results.innerHTML = ''; input.setAttribute('aria-expanded', 'false'); input.removeAttribute('aria-activedescendant'); current = []; active = -1; return; }
       const starts = [], has = [];
       for (const e of idx) {
         const w = e.word.toLowerCase();
@@ -180,18 +181,21 @@ const spec0Gloss = spec0.gloss;
       }
       current = [...starts, ...has].slice(0, 12);
       active = -1;
+      input.removeAttribute('aria-activedescendant');
       if (!current.length) { results.innerHTML = '<div class="none">No entry for “' + q + '”. Perhaps you ought to submit it.</div>'; return; }
       results.innerHTML = current.map((e, i) =>
-        `<a role="option" id="r${i}" href="/word/${e.id}/"><span class="w">${e.word}</span><span class="g">${e.gloss || ''}</span></a>`
+        `<a role="option" aria-selected="false" id="r${i}" href="/word/${e.id}/"><span class="w">${e.word}</span><span class="g">${e.gloss || ''}</span></a>`
       ).join('');
       input.setAttribute('aria-expanded', 'true');
     }
     function move(d) {
       const links = results.querySelectorAll('a');
       if (!links.length) return;
-      links.forEach((l) => l.classList.remove('active'));
+      links.forEach((l) => { l.classList.remove('active'); l.setAttribute('aria-selected', 'false'); });
       active = (active + d + links.length) % links.length;
       links[active].classList.add('active');
+      links[active].setAttribute('aria-selected', 'true');
+      input.setAttribute('aria-activedescendant', links[active].id);
       links[active].scrollIntoView({ block: 'nearest' });
     }
     input.addEventListener('input', () => render(input.value));

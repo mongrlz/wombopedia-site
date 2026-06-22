@@ -33,7 +33,7 @@ import Base from '../layouts/Base.astro';
       </label>
       <button type="submit" class="wform-btn">Submit for Review</button>
     </form>
-    <div id="wform-done" class="wform-done" hidden>
+    <div id="wform-done" class="wform-done" role="status" aria-live="polite" tabindex="-1" hidden>
       <p class="display" style="font-size:var(--t-lg); margin:0 0 0.4rem;">Submitted ✓</p>
       <p style="color:var(--ink-soft); margin:0;">Held for editorial review — ratified entries join the canon live on stream. Thank you.</p>
     </div>
@@ -68,6 +68,7 @@ import Base from '../layouts/Base.astro';
       }
       form.hidden = true;
       done.hidden = false;
+      done.focus();
       done.scrollIntoView({ behavior: 'smooth', block: 'center' });
     });
   </script>
