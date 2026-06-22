@@ -24606,5 +24606,355 @@
       }
     ],
     "tier": "sendy-original"
+  },
+  {
+    "id": "brud",
+    "word": "Brud",
+    "ipa": [
+      "ˈbrʌd"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of BRO + CHUD. Shown on screen as \"Bro + Chud = Brud.\"",
+    "synonyms": [
+      "bro",
+      "dude"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a familiar term of address blending bro and chud; a dude, a guy.",
+            "examples": [
+              {
+                "text": "What's good, brud?",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "twud",
+    "word": "Twud",
+    "ipa": [
+      "ˈtwʌd"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of TWIN + CHUD. Shown on screen as \"Twin + Chud = Twud.\"",
+    "synonyms": [
+      "twin",
+      "bestie"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "one's twin or inseparable friend; a chud you'd call your twin.",
+            "examples": [
+              {
+                "text": "Me and my twud do everything together.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "chuzz",
+    "word": "Chuzz",
+    "ipa": [
+      "ˈtʃʌz"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CHUD + HUZZ. Shown on screen as \"Chud + Huzz = Chuzz.\"",
+    "synonyms": [
+      "chud",
+      "huzz"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a chud regarded as a huzz; an affectionate, slightly teasing term of address.",
+            "examples": [
+              {
+                "text": "Pull up to the function, chuzz.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "chizz",
+    "word": "Chizz",
+    "ipa": [
+      "ˈtʃɪz"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CHUD + RIZZ. Shown on screen as \"Chud + Rizz = Chizz.\"",
+    "synonyms": [
+      "smooth",
+      "charmer"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a chud blessed with rizz; a smooth, charismatic guy.",
+            "examples": [
+              {
+                "text": "He walked in talking effortless — total chizz.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "chusin",
+    "word": "Chusin",
+    "ipa": [
+      "ˈtʃʌz.ɪn"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CHUD + COUSIN. Shown on screen as \"Chud + Cousin = Chusin.\"",
+    "synonyms": [
+      "cousin",
+      "fam"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "one's cousin; a chud who is also family.",
+            "examples": [
+              {
+                "text": "Bringing my chusin to the cookout.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "crud",
+    "word": "Crud",
+    "ipa": [
+      "ˈkrʌd"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CRINE + CHUD. Shown on screen as \"Crine + Chud = Crud.\"",
+    "synonyms": [
+      "pal",
+      "guy"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a general term of address; a chud, by way of crine. Overwrites the established \"crud.\"",
+            "examples": [
+              {
+                "text": "Long time no see, crud.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "chuddy",
+    "word": "Chuddy",
+    "ipa": [
+      "ˈtʃʌd.i"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CHUD + BUDDY. Shown on screen as \"Chud + Buddy = Chuddy.\"",
+    "synonyms": [
+      "buddy",
+      "pal"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a buddy; an affectionate term for a close chud.",
+            "examples": [
+              {
+                "text": "He's been my chuddy since grade school.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "chopp",
+    "word": "Chopp",
+    "ipa": [
+      "ˈtʃɑːp"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CHUD + OPP. Shown on screen as \"Chud + Opp = Chopp.\"",
+    "synonyms": [
+      "opp",
+      "rival"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a chud who is an opp; a rival or frenemy.",
+            "examples": [
+              {
+                "text": "Keep it cordial, but that's a chopp.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "chug",
+    "word": "Chug",
+    "ipa": [
+      "ˈtʃʌɡ"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CHUD + PLUG. Shown on screen as \"Chud + Plug = Chug.\"",
+    "synonyms": [
+      "plug",
+      "connect"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "noun",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a chud who is your plug; your reliable connect or go-to guy.",
+            "examples": [
+              {
+                "text": "Need last-minute tickets? My chug's got us.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
+  },
+  {
+    "id": "crackinupud",
+    "word": "Crackinupud",
+    "ipa": [
+      "ˌkræk.ɪn.ʌˈpʌd"
+    ],
+    "origin": "Professor Sendy",
+    "status": "canon",
+    "firstKnownUse": "2026",
+    "etymology": "A blend (wombo) of CRACKIN UP + CHUD. Shown on screen as \"Crackin Up + Chud = Crackinupud.\"",
+    "synonyms": [
+      "what's good",
+      "yo"
+    ],
+    "video": "7653914778729057566",
+    "parts": [
+      {
+        "pos": "interjection",
+        "senses": [
+          {
+            "num": 1,
+            "def": "a casual greeting; \"what's crackin'\" fused with chud, used to say hello.",
+            "examples": [
+              {
+                "text": "Crackinupud! Haven't seen you in ages.",
+                "source": "Professor Sendy",
+                "year": "2026"
+              }
+            ]
+          }
+        ]
+      }
+    ],
+    "tier": "sendy-original"
   }
 ]
